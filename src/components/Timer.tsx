@@ -134,12 +134,6 @@ const Timer = () => {
     
     setTimeLeft(newTime);
     
-    // Start timer immediately for breaks (manual selection)
-    if (mode === 'shortBreak' || mode === 'longBreak') {
-      setTimeout(() => {
-        setIsRunning(true);
-      }, 100);
-    }
   };
 
   const handleSaveSettings = () => {
