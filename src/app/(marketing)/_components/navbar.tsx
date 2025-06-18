@@ -7,6 +7,7 @@ import { useConvexAuth } from "convex/react";
 import { SignInButton, UserButton } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/spinner";
+import Link from "next/link";
 
 export const NavBar = () => {
     const { isAuthenticated, isLoading } = useConvexAuth();
@@ -21,8 +22,8 @@ export const NavBar = () => {
             <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
                 {isLoading && (
                     <div className="flex items-center gap-x-2">
-                        <Spinner size="sm" />
-                        <span className="text-sm text-muted-foreground">Loading...</span>
+                        <Spinner />
+    
                     </div>
                 )}
 
@@ -49,27 +50,16 @@ export const NavBar = () => {
                 )}
 
                 {isAuthenticated && !isLoading && (
-                    <div className="flex items-center gap-x-2">
-                        {/* You can add additional authenticated user options here */}
-                        <Button 
-                            variant="ghost" 
-                            size="sm"
-                            className="text-foreground hover:bg-accent hover:text-accent-foreground"
-                        >
-                            Dashboard
-                        </Button>
-                        <UserButton 
-                            afterSignOutUrl="/"
-                            appearance={{
-                                elements: {
-                                    avatarBox: {
-                                        height: 30,
-                                        width: 30
-                                    }
-                                }
-                            }}
-                        />
-                    </div>
+                    <>
+                    <Button variant="ghost" size="sm" asChild>
+                        <Link href='/home'>
+                        Enter xaizen
+                        </Link>
+                    </Button>
+                    <UserButton 
+                    afterSignOutUrl="/"
+                    />
+                    </>
                 )}
             </div>
         </div>

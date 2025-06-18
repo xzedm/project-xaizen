@@ -43,7 +43,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ConvexClientProvider>
-        <main className="w-full max-w-3xl">{children}</main>
+          {children}
         </ConvexClientProvider>
       </body>
     </html>
