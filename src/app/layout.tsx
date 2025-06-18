@@ -15,6 +15,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "xaizen",
   description: "Focus made beautiful.",
+  icons: {
+    icon: [
+      {
+        media: "(prefers-color-scheme: light)",
+        url: "/dark-logo.svg",
+        href: "/dark-logo.svg",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/white-logo.svg",
+        href: "/white-logo.svg",
+      }
+    ]
+  }
 };
 
 export default function RootLayout({
