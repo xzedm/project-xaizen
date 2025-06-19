@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from './ui/button';
 import { RotateCcw, Settings } from 'lucide-react';
-import NavigationMenu from './NavigationMenu';
 
 type TimerMode = 'work' | 'shortBreak' | 'longBreak';
 

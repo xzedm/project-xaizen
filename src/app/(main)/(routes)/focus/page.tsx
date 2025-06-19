@@ -3,10 +3,15 @@ import NavigationMenu from "@/components/NavigationMenu";
 
 const FocusPage = () => {
     return (
-        <div className="h-full flex flex-col items-center justify-center p-6">
-            <div className="max-w-4xl w-full">
-                <Timer />
+        <div className="min-h-screen flex flex-col">
+            {/* Main Content - Centered Timer */}
+            <div className="flex-1 flex justify-center items-center p-6">
+                <div className="max-w-4xl w-full">
+                    <Timer />
+                </div>
             </div>
+            
+            {/* Navigation Menu - Fixed at Bottom */}
             <NavigationMenu />
         </div>
     );
