@@ -14,7 +14,7 @@ const MainLayout = ({
 
     if (isLoading){
         return (
-            <div className="h-full flex items-center justify-center">
+            <div className="flex justify-center items-center">
                 <Spinner size="lg"/>
             </div>
         );
@@ -25,7 +25,7 @@ const MainLayout = ({
     }
 
     return ( 
-        <div className="h-full flex ">
+        <div className="flex flex-col justify-center items-center">
             {children}
         </div>
      );

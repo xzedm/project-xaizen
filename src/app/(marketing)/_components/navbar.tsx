@@ -33,7 +33,7 @@ export const NavBar = () => {
                             <Button 
                                 variant="ghost" 
                                 size="sm"
-                                className="text-foreground hover:bg-accent hover:text-accent-foreground"
+                                className="text-foreground hover:bg-accent hover:text-accent-foreground cursor-pointer"
                             >
                                 Log in
                             </Button>
@@ -41,7 +41,7 @@ export const NavBar = () => {
                         <SignInButton mode="modal">
                             <Button 
                                 size="sm"
-                                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                                className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
                             >
                                 Let's xaizen
                             </Button>
