@@ -1,6 +1,8 @@
 "use client";
 
+import AudioPlayer from "@/components/AudioPlayer";
 import { Spinner } from "@/components/spinner";
+import SpotifyPlayer from "@/components/SpotifyPlayer";
 import { useConvexAuth } from "convex/react";
 import { redirect } from "next/navigation";
 
@@ -27,6 +29,10 @@ const MainLayout = ({
     return ( 
         <div className="flex flex-col justify-center items-center">
             {children}
+            <div>
+                <AudioPlayer />
+                
+            </div>
         </div>
      );
 }
