@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import NavigationMenu from "@/components/NavigationMenu";
+import { useUser } from "@clerk/clerk-react";
 
 const HomePage = () => {
 
     const [time, setTime] = useState(new Date());
+    const {user, isLoaded } = useUser();
 
     useEffect(() => {
         const interval = setInterval(() => setTime(new Date()), 1000);
@@ -18,7 +20,10 @@ const HomePage = () => {
     return (
         <div className="min-h-screen flex flex-col">
             {/* Main Content - Centered Clock */}
-            <div className="flex-1 flex justify-center items-center">
+            <div className="flex-1 flex flex-col justify-center items-center gap-8">
+                <div className="text-4xl font-medium text-center">
+                    Keep grinding, {user?.username || user?.firstName || "Friend"}!
+                </div>
                 <div className="text-9xl font-semibold text-black">
                     {formatTime(time)}
                 </div>

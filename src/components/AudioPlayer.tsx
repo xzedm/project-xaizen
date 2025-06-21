@@ -1,7 +1,7 @@
 // src/components/AudioPlayer.tsx
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Music, Volume2, VolumeX, Play, Pause, SkipForward, SkipBack, Maximize2, Minimize2, GripVertical } from 'lucide-react';
 import { Button } from './ui/button';
 
@@ -56,10 +56,11 @@ const AudioPlayer = () => {
   const [duration, setDuration] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState<Position>({ x: 20, y: 20 });
-  const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playerRef = useRef<HTMLDivElement | null>(null);
+  const dragStartRef = useRef<Position>({ x: 0, y: 0 });
+  const initialPositionRef = useRef<Position>({ x: 0, y: 0 });
 
   const currentTrack = AUDIO_TRACKS[currentTrackIndex];
 
@@ -107,6 +108,48 @@ const AudioPlayer = () => {
       }
     }
   }, [currentTrackIndex]);
+
+  // Optimized mouse move handler using useCallback
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging) return;
+
+    const deltaX = e.clientX - dragStartRef.current.x;
+    const deltaY = e.clientY - dragStartRef.current.y;
+
+    const newX = initialPositionRef.current.x + deltaX;
+    const newY = initialPositionRef.current.y + deltaY;
+
+    // Keep within viewport bounds
+    const maxX = window.innerWidth - (isExpanded ? 320 : 60);
+    const maxY = window.innerHeight - (isExpanded ? 400 : 60);
+
+    setPosition({
+      x: Math.max(0, Math.min(newX, maxX)),
+      y: Math.max(0, Math.min(newY, maxY)),
+    });
+  }, [isDragging, isExpanded]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // Set up drag event listeners
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      // Prevent text selection while dragging
+      document.body.style.userSelect = 'none';
+    } else {
+      document.body.style.userSelect = '';
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.style.userSelect = '';
+    };
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   // Handle play/pause
   const togglePlay = () => {
@@ -172,63 +215,37 @@ const AudioPlayer = () => {
     setCurrentTime(newTime);
   };
 
-  // Dragging functionality
+  // Improved mouse down handler
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget || (e.target as HTMLElement).classList.contains('drag-handle')) {
-      setIsDragging(true);
-      const rect = playerRef.current?.getBoundingClientRect();
-      if (rect) {
-        setDragOffset({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
-      }
-    }
+    // Only start dragging if clicking on draggable areas
+    const target = e.target as HTMLElement;
+    const isDraggableArea = 
+      target === e.currentTarget || 
+      target.classList.contains('drag-handle') ||
+      target.closest('.draggable-header');
+
+    if (!isDraggableArea) return;
+
+    e.preventDefault();
+    setIsDragging(true);
+    
+    // Store initial positions
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+    initialPositionRef.current = { ...position };
   };
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging) {
-        const newX = e.clientX - dragOffset.x;
-        const newY = e.clientY - dragOffset.y;
-        
-        // Keep within viewport bounds
-        const maxX = window.innerWidth - (isExpanded ? 320 : 60);
-        const maxY = window.innerHeight - (isExpanded ? 400 : 60);
-        
-        setPosition({
-          x: Math.max(0, Math.min(newX, maxX)),
-          y: Math.max(0, Math.min(newY, maxY)),
-        });
-      }
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-    }
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, dragOffset, isExpanded]);
 
   return (
     <div
       ref={playerRef}
       className={`fixed z-[60] bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 transition-all duration-300 ${
-        isDragging ? 'cursor-grabbing' : 'cursor-grab'
+        isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'
       }`}
       style={{
         left: position.x,
         top: position.y,
         width: isExpanded ? '320px' : '60px',
         height: isExpanded ? 'auto' : '60px',
+        transform: isDragging ? 'scale(1.02)' : 'scale(1)', // Subtle feedback
       }}
       onMouseDown={handleMouseDown}
     >
@@ -253,7 +270,7 @@ const AudioPlayer = () => {
       {isExpanded && (
         <div className="p-4 space-y-4">
           {/* Header with drag handle and minimize button */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between draggable-header">
             <div className="flex items-center gap-2">
               <GripVertical className="h-4 w-4 text-gray-400 drag-handle cursor-grab" />
               <Music className="h-5 w-5" />

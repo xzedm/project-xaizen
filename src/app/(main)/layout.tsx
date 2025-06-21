@@ -2,7 +2,6 @@
 
 import AudioPlayer from "@/components/AudioPlayer";
 import { Spinner } from "@/components/spinner";
-import SpotifyPlayer from "@/components/SpotifyPlayer";
 import { useConvexAuth } from "convex/react";
 import { redirect } from "next/navigation";
 
@@ -31,7 +30,6 @@ const MainLayout = ({
             {children}
             <div>
                 <AudioPlayer />
-                
             </div>
         </div>
      );
