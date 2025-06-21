@@ -1,10 +1,11 @@
-import NavigationMenu from "@/components/NavigationMenu";
+import { UserProfile } from "@clerk/clerk-react";
 
 const ProfilePage = () => {
     return ( 
         <div>
-            Profile page
-            <NavigationMenu />
+            <div className="flex justify-center py-10">
+                profile page
+            </div>
         </div>
      );
 }

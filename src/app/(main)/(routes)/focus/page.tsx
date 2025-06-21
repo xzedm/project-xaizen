@@ -12,7 +12,6 @@ const FocusPage = () => {
             </div>
             
             {/* Navigation Menu - Fixed at Bottom */}
-            <NavigationMenu />
         </div>
     );
 }

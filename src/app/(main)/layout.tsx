@@ -1,6 +1,7 @@
 "use client";
 
 import AudioPlayer from "@/components/AudioPlayer";
+import NavigationMenu from "@/components/NavigationMenu";
 import { Spinner } from "@/components/spinner";
 import { TimerProvider } from "@/components/TimerContext";
 import { useConvexAuth } from "convex/react";
@@ -33,6 +34,9 @@ const MainLayout = ({
             </TimerProvider>
             <div>
                 <AudioPlayer />
+            </div>
+            <div>
+                <NavigationMenu />
             </div>
         </div>
      );
