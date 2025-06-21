@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { Button } from './ui/button';
 import { RotateCcw, Settings } from 'lucide-react';
+import { useTimer } from './TimerContext'; // Adjust the import path as needed
 
 type TimerMode = 'work' | 'shortBreak' | 'longBreak';
 
@@ -14,134 +15,36 @@ interface TimerSettings {
 }
 
 const Timer = () => {
-  const [settings, setSettings] = useState<TimerSettings>({
-    workTime: 1500, // 25 minutes
-    shortBreakTime: 300, // 5 minutes
-    longBreakTime: 900, // 15 minutes
-    longBreakInterval: 4 // Long break after every 4 work sessions
-  });
+  const {
+    settings,
+    setSettings,
+    isRunning,
+    timeLeft,
+    currentMode,
+    completedWorkSessions,
+    formatTime,
+    stopTimer,
+    resetTimer,
+    getCurrentModeTime,
+    handleModeChange
+  } = useTimer();
 
-  const [isRunning, setIsRunning] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(settings.workTime);
-  const [currentMode, setCurrentMode] = useState<TimerMode>('work');
-  const [completedWorkSessions, setCompletedWorkSessions] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [tempSettings, setTempSettings] = useState<TimerSettings>(settings);
 
-  // Initialize audio
-  useEffect(() => {
-    audioRef.current = new Audio('/alarm.mp3');
-    audioRef.current.preload = 'auto';
-  }, []);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
-
-    if (isRunning && timeLeft > 0) {
-      timer = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
-      }, 1000);
-    } else if (timeLeft === 0) {
-      // Play alarm when timer reaches 0
-      playAlarm();
-      setIsRunning(false);
-      
-      // Auto-progression logic
-      if (currentMode === 'work') {
-        const newCompletedSessions = completedWorkSessions + 1;
-        setCompletedWorkSessions(newCompletedSessions);
-        
-        // Determine next mode based on completed sessions
-        if (newCompletedSessions % settings.longBreakInterval === 0) {
-          // Time for long break
-          setCurrentMode('longBreak');
-          setTimeLeft(settings.longBreakTime);
-        } else {
-          // Time for short break
-          setCurrentMode('shortBreak');
-          setTimeLeft(settings.shortBreakTime);
-        }
-        
-        // Auto-start the break
-        setTimeout(() => {
-          setIsRunning(true);
-        }, 1000); // 1 second delay to let user see the mode change
-      } else {
-        // Break finished, return to work
-        setCurrentMode('work');
-        setTimeLeft(settings.workTime);
-        // Don't auto-start work, let user decide when to start
-      }
-    }
-
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [isRunning, timeLeft, currentMode, completedWorkSessions, settings]);
-
-  const playAlarm = () => {
-    if (audioRef.current) {
-      audioRef.current.play().catch(error => {
-        console.log('Could not play alarm sound:', error);
-      });
-    }
-  };
-
-  const formatTime = (seconds: number) => {
-    const min = Math.floor(seconds / 60);
-    const sec = seconds % 60;
-    return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-  };
-
-  const stopTimer = () => {
-    setIsRunning(prev => !prev);
-  };
-
-  const resetTimer = () => {
-    setIsRunning(false);
-    const defaultTime = getCurrentModeTime();
-    setTimeLeft(defaultTime);
-  };
-
-  const getCurrentModeTime = () => {
-    switch (currentMode) {
-      case 'work':
-        return settings.workTime;
-      case 'shortBreak':
-        return settings.shortBreakTime;
-      case 'longBreak':
-        return settings.longBreakTime;
-      default:
-        return settings.workTime;
-    }
-  };
-
-  const handleModeChange = (mode: TimerMode) => {
-    setCurrentMode(mode);
-    setIsRunning(false);
-    
-    let newTime;
-    switch (mode) {
-      case 'shortBreak':
-        newTime = settings.shortBreakTime;
-        break;
-      case 'longBreak':
-        newTime = settings.longBreakTime;
-        break;
-      default:
-        newTime = settings.workTime;
-    }
-    
-    setTimeLeft(newTime);
-    
+  // Update temp settings when modal opens
+  const handleOpenSettings = () => {
+    setTempSettings(settings);
+    setShowSettings(true);
   };
 
   const handleSaveSettings = () => {
-    const newTime = getCurrentModeTime();
-    setTimeLeft(newTime);
-    setIsRunning(false);
-    
+    setSettings(tempSettings);
+    setShowSettings(false);
+  };
 
+  const handleCancelSettings = () => {
+    setTempSettings(settings); // Reset to current settings
     setShowSettings(false);
   };
 
@@ -164,8 +67,8 @@ const Timer = () => {
     return `${baseClasses} hover:bg-gray-100 hover:text-black border border-black text-lg h-12 px-6`;
   };
 
-  const handleSettingsChange = (key: keyof TimerSettings, value: number) => {
-    setSettings(prev => ({
+  const handleTempSettingsChange = (key: keyof TimerSettings, value: number) => {
+    setTempSettings(prev => ({
       ...prev,
       [key]: value
     }));
@@ -181,7 +84,7 @@ const Timer = () => {
               <div className='flex justify-between items-center mb-4'>
                 <h3 className='text-lg font-semibold'>Timer Settings</h3>
                 <button
-                  onClick={() => setShowSettings(false)}
+                  onClick={handleCancelSettings}
                   className='text-gray-500 hover:text-gray-700 text-xl'
                 >
                   ×
@@ -193,9 +96,9 @@ const Timer = () => {
                   <label className='block text-sm font-medium mb-1'>Work Time (minutes)</label>
                   <input
                     type='number'
-                    value={Math.round(settings.workTime / 60)}
-                    onChange={(e) => handleSettingsChange('workTime', parseInt(e.target.value) * 60 || 1500)}
-                    className='w-full p-2 border rounded'
+                    value={Math.round(tempSettings.workTime / 60)}
+                    onChange={(e) => handleTempSettingsChange('workTime', Math.max(1, parseInt(e.target.value) || 1) * 60)}
+                    className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                     min='1'
                     max='120'
                   />
@@ -205,9 +108,9 @@ const Timer = () => {
                   <label className='block text-sm font-medium mb-1'>Short Break (minutes)</label>
                   <input
                     type='number'
-                    value={Math.round(settings.shortBreakTime / 60)}
-                    onChange={(e) => handleSettingsChange('shortBreakTime', parseInt(e.target.value) * 60 || 300)}
-                    className='w-full p-2 border rounded'
+                    value={Math.round(tempSettings.shortBreakTime / 60)}
+                    onChange={(e) => handleTempSettingsChange('shortBreakTime', Math.max(1, parseInt(e.target.value) || 1) * 60)}
+                    className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                     min='1'
                     max='30'
                   />
@@ -217,9 +120,9 @@ const Timer = () => {
                   <label className='block text-sm font-medium mb-1'>Long Break (minutes)</label>
                   <input
                     type='number'
-                    value={Math.round(settings.longBreakTime / 60)}
-                    onChange={(e) => handleSettingsChange('longBreakTime', parseInt(e.target.value) * 60 || 900)}
-                    className='w-full p-2 border rounded'
+                    value={Math.round(tempSettings.longBreakTime / 60)}
+                    onChange={(e) => handleTempSettingsChange('longBreakTime', Math.max(1, parseInt(e.target.value) || 1) * 60)}
+                    className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                     min='1'
                     max='60'
                   />
@@ -229,9 +132,9 @@ const Timer = () => {
                   <label className='block text-sm font-medium mb-1'>Long Break Interval (work sessions)</label>
                   <input
                     type='number'
-                    value={settings.longBreakInterval}
-                    onChange={(e) => handleSettingsChange('longBreakInterval', parseInt(e.target.value) || 4)}
-                    className='w-full p-2 border rounded'
+                    value={tempSettings.longBreakInterval}
+                    onChange={(e) => handleTempSettingsChange('longBreakInterval', Math.max(2, parseInt(e.target.value) || 2))}
+                    className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                     min='2'
                     max='10'
                   />
@@ -245,18 +148,18 @@ const Timer = () => {
               
               <div className='mt-6 flex justify-end space-x-2'>
                 <Button
-                    onClick={handleSaveSettings}
-                    className='bg-green-500 hover:bg-green-600 text-white px-4 py-2'
+                  onClick={handleSaveSettings}
+                  className='bg-green-500 hover:bg-green-600 text-white px-4 py-2'
                 >
-                    Save
+                  Save
                 </Button>
                 <Button
-                    onClick={() => setShowSettings(false)}
-                    className='bg-gray-500 hover:bg-gray-600 text-white px-4 py-2'
+                  onClick={handleCancelSettings}
+                  className='bg-gray-500 hover:bg-gray-600 text-white px-4 py-2'
                 >
-                    Cancel
+                  Cancel
                 </Button>
-            </div>
+              </div>
             </div>
           </div>
         )}
@@ -307,7 +210,7 @@ const Timer = () => {
           />
           <Settings 
             className='cursor-pointer mx-4 size-10 hover:text-gray-600 transition-colors'
-            onClick={() => setShowSettings(true)}
+            onClick={handleOpenSettings}
           />
         </div>
       </div>

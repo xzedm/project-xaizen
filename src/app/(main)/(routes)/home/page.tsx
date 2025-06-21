@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import NavigationMenu from "@/components/NavigationMenu";
 import { useUser } from "@clerk/clerk-react";
+import MiniTimerWidget from "@/components/MiniTimerWidget";
 
 const HomePage = () => {
 
@@ -28,7 +29,7 @@ const HomePage = () => {
                     {formatTime(time)}
                 </div>
             </div>
-            
+            <MiniTimerWidget />
             {/* Navigation Menu at Bottom */}
             <div className="fixed bottom-0 left-0 right-0">
                 <NavigationMenu />
