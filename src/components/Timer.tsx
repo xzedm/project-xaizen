@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button } from './ui/button';
 import { RotateCcw, Settings } from 'lucide-react';
-import { useTimer } from './TimerContext'; // Adjust the import path as needed
+import { useTimer } from './TimerContext';
 
 type TimerMode = 'work' | 'shortBreak' | 'longBreak';
 
@@ -85,7 +85,7 @@ const Timer = () => {
                 <h3 className='text-lg font-semibold'>Timer Settings</h3>
                 <button
                   onClick={handleCancelSettings}
-                  className='text-gray-500 hover:text-gray-700 text-xl'
+                  className='text-gray-500 hover:text-gray-700 text-xl cursor-pointer'
                 >
                   ×
                 </button>

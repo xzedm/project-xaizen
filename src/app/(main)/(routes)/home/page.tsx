@@ -14,7 +14,7 @@ const HomePage = () => {
       }, []);
 
       const formatTime = (date: Date) => {
-        return date.toLocaleTimeString(); // e.g. 10:32:10 AM
+        return date.toLocaleTimeString();
       };
 
     return (

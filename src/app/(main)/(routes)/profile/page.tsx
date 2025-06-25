@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { SignOutButton, UserButton, UserProfile, useUser } from "@clerk/clerk-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import ContributionCalendar from "./_components/ContributionCalendar";
 
 const ProfilePage = () => {
-
     const { user } = useUser();
     const [open, setOpen] = useState(false);
     const dropDown = useRef<HTMLDivElement>(null);
@@ -22,11 +22,10 @@ const ProfilePage = () => {
        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-
-
     return ( 
-        <div>
-            <div className="flex justify-center items-center py-10"
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+            {/* User Profile Section */}
+            <div className="flex justify-center items-center py-10 gap-20"
             ref={dropDown}>
                 <div className="flex flex-col justify-center items-center gap-4">
                     <img 
@@ -35,10 +34,10 @@ const ProfilePage = () => {
                     className="rounded-full w-50 h-50"
                     />
                     <div className="text-center">
-                        <h3 className="font-bold text-xl ">
+                        <h3 className="font-bold text-xl text-gray-900 dark:text-white">
                             {user?.fullName}
                         </h3>
-                        <h5>
+                        <h5 className="text-gray-600 dark:text-gray-400">
                             {user?.username}
                         </h5>
                     </div>
@@ -64,12 +63,12 @@ const ProfilePage = () => {
                                         <p>Sign out</p>
                                     </SignOutButton>
                                 </div>
-                                
                             </div>
                         </div>
-                        
-                        
                     )}
+                </div>
+                <div className="">
+                    <ContributionCalendar />
                 </div>
             </div>
         </div>

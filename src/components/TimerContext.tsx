@@ -1,6 +1,9 @@
 "use client"
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { useUser } from "@clerk/clerk-react";
 
 interface TimerSettings {
   workTime: number;
@@ -43,6 +46,28 @@ const STORAGE_KEYS = {
 };
 
 export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { user } = useUser();
+  const recordWorkSession = useMutation(api.workSessions.recordWorkSession);
+
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      audioRef.current = new Audio('/alarm.mp3');
+      audioRef.current.preload = 'auto';
+    }
+  }, []);
+
+  // Function to play alarm sound
+  const playAlarm = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0; // Reset to beginning
+      audioRef.current.play().catch((error) => {
+        console.error('Error playing alarm sound:', error);
+      });
+    }
+  }, []);
+
   // Load settings from localStorage or use defaults
   const [settings, setSettings] = useState<TimerSettings>(() => {
     if (typeof window !== 'undefined') {
@@ -83,6 +108,36 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   });
 
   const [isRunning, setIsRunning] = useState(false);
+
+  const getNextMode = useCallback((currentMode: TimerMode, completedSessions: number): TimerMode => {
+    if (currentMode === 'work') {
+      // After work, check if it's time for long break
+      const nextSessionCount = completedSessions + 1;
+      if (nextSessionCount % settings.longBreakInterval === 0) {
+        return 'longBreak';
+      } else {
+        return 'shortBreak';
+      }
+    } else {
+      // After any break, go back to work
+      return 'work';
+    }
+  }, [settings.longBreakInterval]);
+
+  const transitionToNextMode = useCallback((currentMode: TimerMode, completedSessions: number) => {
+    const nextMode = getNextMode(currentMode, completedSessions);
+    setCurrentMode(nextMode);
+    
+    // Set time for next mode
+    const nextModeTime = nextMode === 'work' ? settings.workTime : 
+                        nextMode === 'shortBreak' ? settings.shortBreakTime : 
+                        settings.longBreakTime;
+    setTimeLeft(nextModeTime);
+    
+    // Auto-start the next session
+    setIsRunning(true);
+  }, [getNextMode, settings]);
+  
 
   // Save settings to localStorage whenever they change
   useEffect(() => {
@@ -134,23 +189,46 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setTimeLeft((prevTime) => {
           if (prevTime <= 1) {
             setIsRunning(false);
+            
+            // Play alarm sound
+            playAlarm();
+            
             // Handle timer completion
             if (currentMode === 'work') {
-              setCompletedWorkSessions(prev => prev + 1);
+              const newCompletedSessions = completedWorkSessions + 1;
+              setCompletedWorkSessions(newCompletedSessions);
+              
+              // Record work session in Convex database
+              if (user) {
+                recordWorkSession({ userId: user.id }).catch(error => {
+                  console.error('Error recording work session:', error);
+                });
+              }
+              
+              // Auto-transition to break after a short delay
+              setTimeout(() => {
+                transitionToNextMode(currentMode, completedWorkSessions);
+              }, 2000); // 2 second delay
+            } else {
+              // After break, auto-transition to work after a short delay
+              setTimeout(() => {
+                transitionToNextMode(currentMode, completedWorkSessions);
+              }, 2000); // 2 second delay
             }
+            
             return 0;
           }
           return prevTime - 1;
         });
       }, 1000);
     }
-
+  
     return () => {
       if (interval) {
         clearInterval(interval);
       }
     };
-  }, [isRunning, timeLeft, currentMode]);
+  }, [isRunning, timeLeft, currentMode, completedWorkSessions, user, recordWorkSession, playAlarm, transitionToNextMode]);
 
   const getCurrentModeTime = useCallback(() => {
     switch (currentMode) {
