@@ -1,8 +1,13 @@
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "./_components/app-sidebar";
 
 const Settings = () => {
     return ( 
         <div>
-            settings
+            <SidebarProvider className="">
+                <AppSidebar />
+                
+            </SidebarProvider>
         </div>
      );
 }
