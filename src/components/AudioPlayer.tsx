@@ -1,4 +1,3 @@
-// src/components/AudioPlayer.tsx
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from 'react';
@@ -12,32 +11,32 @@ interface AudioTrack {
   duration?: number;
 }
 
-// Sample audio tracks - replace these URLs with your cloud storage URLs
+
 const AUDIO_TRACKS: AudioTrack[] = [
   {
     id: '1',
     title: 'Rain Sounds',
-    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396317/rain_wxnisk.mp3', // Replace with your cloud URL
+    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396317/rain_wxnisk.mp3',
   },
   {
     id: '2',
     title: 'Forest Birds',
-    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396319/bird_sadrzk.mp3', // Replace with your cloud URL
+    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396319/bird_sadrzk.mp3',
   },
   {
     id: '3',
     title: 'Ocean Waves',
-    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396322/waves_e9p5qj.mp3', // Replace with your cloud URL
+    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396322/waves_e9p5qj.mp3',
   },
   {
     id: '4',
     title: 'Wind in Trees',
-    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396316/wind_aeubc6.mp3', // Replace with your cloud URL
+    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396316/wind_aeubc6.mp3',
   },
   {
     id: '5',
     title: 'Crackling Fire',
-    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396316/fire_d9i5uk.mp3', // Replace with your cloud URL
+    url: 'https://res.cloudinary.com/dr4chxiph/video/upload/v1750396316/fire_d9i5uk.mp3',
   },
 ];
 
