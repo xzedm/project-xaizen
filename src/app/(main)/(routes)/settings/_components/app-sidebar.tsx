@@ -78,7 +78,7 @@ export function AppSidebar({ onSectionChange, activeSection = "themes" }: AppSid
   };
 
   return (
-    <Sidebar className="border-r">
+    <Sidebar className="border-l border-r-0 order-2" side="right">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Focus Settings</SidebarGroupLabel>

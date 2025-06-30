@@ -413,9 +413,8 @@ const Settings = () => {
     <div className="min-h-screen bg-gray-50">
       <SidebarProvider>
         <div className="flex">
-          <AppSidebar onSectionChange={setActiveSection} activeSection={activeSection} />
-          
-          <main className="flex-1 p-4 lg:p-8">
+          {/* Main content now comes first */}
+          <main className="flex-1 p-4 lg:p-8 ml-20">
             <div className="max-w-4xl mx-auto">
               <div className="flex items-center justify-between mb-8">
                 <div>
@@ -452,6 +451,9 @@ const Settings = () => {
               </div>
             </div>
           </main>
+
+          {/* Sidebar now comes second and is positioned on the right */}
+          <AppSidebar onSectionChange={setActiveSection} activeSection={activeSection} />
         </div>
       </SidebarProvider>
     </div>

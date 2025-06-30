@@ -58,9 +58,9 @@ const MiniTimerWidget = () => {
             title={isRunning ? 'Pause' : 'Start'}
           >
             {isRunning ? (
-              <Pause className="w-4 h-4" />
+              <Pause className="w-4 h-4 cursor-pointer" />
             ) : (
-              <Play className="w-4 h-4" />
+              <Play className="w-4 h-4 cursor-pointer" />
             )}
           </button>
           
@@ -69,7 +69,7 @@ const MiniTimerWidget = () => {
             className="p-1 hover:bg-gray-100 rounded transition-colors"
             title="Reset"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-4 h-4 cursor-pointer" />
           </button>
         </div>
       </div>

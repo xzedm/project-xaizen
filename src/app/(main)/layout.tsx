@@ -33,23 +33,13 @@ const MainLayout = ({
 
     return ( 
         <div className="flex flex-col justify-center items-center">
-            {/* Show AudioPlayer at top on settings page */}
-            {isSettingsPage && (
-                <div>
-                    <AudioPlayer />
-                </div>
-            )}
-            
+
             <TimerProvider>
                 {children}
             </TimerProvider>
-            
-            {/* Show AudioPlayer at bottom on other pages */}
-            {!isSettingsPage && (
-                <div>
-                    <AudioPlayer />
-                </div>
-            )}
+            <div>
+                <AudioPlayer />
+            </div>
             
             <div>
                 <NavigationMenu />
