@@ -5,7 +5,8 @@ import {
   Shield, 
   Volume2,
   Smartphone,
-  Settings 
+  Settings,
+  Pen 
 } from "lucide-react";
 
 import {
@@ -27,10 +28,10 @@ interface AppSidebarProps {
 // Menu items for focus and productivity settings
 const items = [
   {
-    title: "Custom Themes",
+    title: "Themes",
     id: "themes",
     icon: Palette,
-    description: "Customize colors and appearance"
+    description: "Customize themes"
   },
   {
     title: "Notifications",
@@ -39,10 +40,10 @@ const items = [
     description: "Manage alerts and sounds"
   },
   {
-    title: "Focus Timer",
+    title: "Customization",
     id: "focus",
-    icon: Clock,
-    description: "Pomodoro and break settings"
+    icon: Pen,
+    description: "Customize the fonts and appearance"
   },
   {
     title: "Website Blocking",

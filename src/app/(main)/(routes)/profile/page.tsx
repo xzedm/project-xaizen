@@ -5,11 +5,14 @@ import { SignOutButton, UserButton, UserProfile, useUser } from "@clerk/clerk-re
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import ContributionCalendar from "./_components/ContributionCalendar";
+import { useRouter } from "next/navigation";
 
 const ProfilePage = () => {
     const { user } = useUser();
     const [open, setOpen] = useState(false);
     const dropDown = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+
 
     useEffect(() => {
        const handleClickOutside = (event: MouseEvent) => {
@@ -53,7 +56,7 @@ const ProfilePage = () => {
                         <div>
                             <div className="flex flex-col gap-4">
                                 <Button onClick={() => {
-                                window.location.href = "/user";
+                                router.push('/user');
                                 }}
                                 className="cursor-pointer">
                                     Manage Account

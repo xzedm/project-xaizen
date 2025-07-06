@@ -7,7 +7,7 @@ export default function BackToProfileButton() {
   const router = useRouter();
 
   const goBackToProfile = () => {
-    router.push("/profile"); // Update this route if your profile path is different
+    router.push("/profile");
   };
 
   return (

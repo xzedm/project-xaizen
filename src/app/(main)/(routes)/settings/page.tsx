@@ -29,12 +29,7 @@ import {
 
 const Settings = () => {
   const [activeSection, setActiveSection] = useState("themes");
-  const [customColors, setCustomColors] = useState({
-    primary: "#3b82f6",
-    secondary: "#64748b",
-    accent: "#8b5cf6",
-    background: "#ffffff"
-  });
+
   const [notifications, setNotifications] = useState({
     breakReminders: true,
     sessionComplete: true,
@@ -57,14 +52,6 @@ const Settings = () => {
   ]);
   const [newSite, setNewSite] = useState("");
 
-  const themePresets = [
-    { name: "Ocean Blue", colors: { primary: "#0ea5e9", secondary: "#0284c7", accent: "#06b6d4", background: "#f0f9ff" } },
-    { name: "Forest Green", colors: { primary: "#10b981", secondary: "#059669", accent: "#34d399", background: "#f0fdf4" } },
-    { name: "Sunset Orange", colors: { primary: "#f97316", secondary: "#ea580c", accent: "#fb923c", background: "#fff7ed" } },
-    { name: "Purple Haze", colors: { primary: "#8b5cf6", secondary: "#7c3aed", accent: "#a78bfa", background: "#faf5ff" } },
-    { name: "Rose Gold", colors: { primary: "#f43f5e", secondary: "#e11d48", accent: "#fb7185", background: "#fff1f2" } },
-    { name: "Dark Mode", colors: { primary: "#6366f1", secondary: "#4f46e5", accent: "#818cf8", background: "#0f172a" } }
-  ];
 
   const addBlockedSite = () => {
     if (newSite && !blockedSites.includes(newSite)) {
@@ -77,76 +64,22 @@ const Settings = () => {
     setBlockedSites(blockedSites.filter(s => s !== site));
   };
 
-  const applyTheme = (theme: typeof themePresets[0]) => {
-    setCustomColors(theme.colors);
-  };
 
   const renderThemeSection = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-4">Theme Presets</h3>
+        <h3 className="text-lg font-semibold mb-4">Themes</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {themePresets.map((theme) => (
-            <Card key={theme.name} className="cursor-pointer hover:shadow-md transition-shadow">
+      
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm">{theme.name}</CardTitle>
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    onClick={() => applyTheme(theme)}
-                  >
-                    Apply
-                  </Button>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex space-x-2">
-                  <div 
-                    className="w-6 h-6 rounded-full border-2 border-gray-200"
-                    style={{ backgroundColor: theme.colors.primary }}
-                  />
-                  <div 
-                    className="w-6 h-6 rounded-full border-2 border-gray-200"
-                    style={{ backgroundColor: theme.colors.secondary }}
-                  />
-                  <div 
-                    className="w-6 h-6 rounded-full border-2 border-gray-200"
-                    style={{ backgroundColor: theme.colors.accent }}
-                  />
-                  <div 
-                    className="w-6 h-6 rounded-full border-2 border-gray-200"
-                    style={{ backgroundColor: theme.colors.background }}
-                  />
-                </div>
               </CardContent>
             </Card>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-lg font-semibold mb-4">Custom Colors</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {Object.entries(customColors).map(([key, value]) => (
-            <div key={key} className="space-y-2">
-              <Label className="capitalize">{key}</Label>
-              <div className="flex space-x-2">
-                <Input
-                  type="color"
-                  value={value}
-                  onChange={(e) => setCustomColors(prev => ({ ...prev, [key]: e.target.value }))}
-                  className="w-16 h-10 p-1 border rounded"
-                />
-                <Input
-                  type="text"
-                  value={value}
-                  onChange={(e) => setCustomColors(prev => ({ ...prev, [key]: e.target.value }))}
-                  className="flex-1"
-                />
-              </div>
-            </div>
-          ))}
+      
         </div>
       </div>
     </div>
@@ -441,10 +374,10 @@ const Settings = () => {
 
               <div className="flex justify-end mt-8 pt-6 border-t">
                 <div className="flex space-x-3">
-                  <Button variant="outline">
+                  <Button variant="outline" className="cursor-pointer">
                     Reset to Defaults
                   </Button>
-                  <Button>
+                  <Button className="cursor-pointer">
                     Save Changes
                   </Button>
                 </div>
