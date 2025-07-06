@@ -26,6 +26,7 @@ import {
   Plus,
   Trash2
 } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const Settings = () => {
   const [activeSection, setActiveSection] = useState("themes");
@@ -65,21 +66,40 @@ const Settings = () => {
   };
 
 
+    const { theme, setTheme } = useTheme();
+  
+    const handleThemeToggle = () => {
+      setTheme(theme === 'dark' ? 'light' : 'dark');
+    }
+
+
   const renderThemeSection = () => (
-    <div className="space-y-6">
+  <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-4">Themes</h3>
+        <h3 className="text-lg font-semibold mb-4">Theme Library</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      
-            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+          <div className="space-y-2">
+            <Card 
+              className="cursor-pointer hover:shadow-md transition-shadow"
+              onClick={handleThemeToggle}
+            >
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
+                  {/* You can add icons or other elements here */}
                 </div>
               </CardHeader>
               <CardContent>
+                <div className="bg-black text-white rounded-lg p-4 text-center">
+                  <h4 className="text-xl font-mono">
+                    8:24
+                  </h4>
+                </div>
               </CardContent>
             </Card>
-      
+            <CardTitle className="text-center">
+              Minimal Black
+            </CardTitle>
+          </div>
         </div>
       </div>
     </div>

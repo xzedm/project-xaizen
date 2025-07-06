@@ -5,8 +5,8 @@ import NavigationMenu from "@/components/NavigationMenu";
 import { Spinner } from "@/components/spinner";
 import { TimerProvider } from "@/components/TimerContext";
 import { useConvexAuth } from "convex/react";
-import { usePathname } from "next/navigation";
 import { redirect } from "next/navigation";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const MainLayout = ({
     children
@@ -14,15 +14,11 @@ const MainLayout = ({
     children: React.ReactNode;
 }) => {
     const { isAuthenticated, isLoading } = useConvexAuth();
-    const pathname = usePathname();
-    
-    // Check if we're on the settings page
-    const isSettingsPage = pathname === "/settings";
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center">
-                <Spinner size="lg"/>
+            <div className="flex h-full justify-center items-center">
+                <Spinner size="lg" />
             </div>
         );
     }
@@ -31,21 +27,26 @@ const MainLayout = ({
         return redirect("/");
     }
 
-    return ( 
-        <div className="flex flex-col justify-center items-center">
-
-            <TimerProvider>
-                {children}
-            </TimerProvider>
-            <div>
-                <AudioPlayer />
+    return (
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
+            <div className="flex flex-col justify-center items-center">
+                <TimerProvider>
+                    {children}
+                </TimerProvider>
+                <div>
+                    <AudioPlayer />
+                </div>
+                <div>
+                    <NavigationMenu />
+                </div>
             </div>
-            
-            <div>
-                <NavigationMenu />
-            </div>
-        </div>
+        </ThemeProvider>
     );
 }
- 
+
 export default MainLayout;
