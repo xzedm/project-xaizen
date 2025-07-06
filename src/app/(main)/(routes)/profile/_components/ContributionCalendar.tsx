@@ -201,7 +201,7 @@ const ContributionCalendar = () => {
   }
 
   return (
-    <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow-lg">
+    <div className="p-6 bg-white dark:bg-transparent dark:border rounded-lg shadow-lg">
       {/* Header with stats */}
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">

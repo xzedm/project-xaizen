@@ -64,7 +64,7 @@ const Timer = () => {
       }
     }
     
-    return `${baseClasses} hover:bg-gray-100 hover:text-black border border-black text-lg h-12 px-6`;
+    return `${baseClasses} hover:bg-gray-100 hover:text-black border border-black text-lg h-12 px-6 dark:text-white dark:bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-black`;
   };
 
   const handleTempSettingsChange = (key: keyof TimerSettings, value: number) => {
@@ -80,7 +80,7 @@ const Timer = () => {
         {/* Settings Modal */}
         {showSettings && (
           <div className='fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50'>
-            <div className='bg-white p-6 rounded-lg shadow-lg w-full max-w-md mx-4'>
+            <div className='bg-white p-6 rounded-lg shadow-lg w-full max-w-md mx-4 dark:bg-black'>
               <div className='flex justify-between items-center mb-4'>
                 <h3 className='text-lg font-semibold'>Timer Settings</h3>
                 <button
@@ -141,7 +141,7 @@ const Timer = () => {
                 </div>
               </div>
               
-              <div className='mt-4 text-sm text-gray-600'>
+              <div className='mt-4 text-sm text-gray-600 dark:text-white'>
                 <p>Completed work sessions: {completedWorkSessions}</p>
                 <p>Next break: {completedWorkSessions % settings.longBreakInterval === settings.longBreakInterval - 1 ? 'Long' : 'Short'}</p>
               </div>
@@ -149,7 +149,7 @@ const Timer = () => {
               <div className='mt-6 flex justify-end space-x-2'>
                 <Button
                   onClick={handleSaveSettings}
-                  className='bg-green-500 hover:bg-green-600 text-white px-4 py-2'
+                  className='bg-green-700 hover:bg-green-800 text-white px-4 py-2'
                 >
                   Save
                 </Button>
@@ -187,7 +187,7 @@ const Timer = () => {
         </div>
         
         {/* Current Mode Display */}
-        <div className='mb-4 text-2xl font-medium text-gray-600'>
+        <div className='mb-4 text-2xl font-medium text-gray-600 dark:text-white'>
           {currentMode === 'work' && 'Focus Time'}
           {currentMode === 'shortBreak' && 'Short Break'}
           {currentMode === 'longBreak' && 'Long Break'}
@@ -199,7 +199,7 @@ const Timer = () => {
         {/* Control Buttons */}
         <div className='mt-8 flex justify-center items-center'>
           <Button 
-            className='mx-4 h-12 px-6 cursor-pointer hover:bg-white hover:text-black border border-black text-lg' 
+            className='mx-4 h-12 px-6 cursor-pointer hover:bg-white hover:text-black border border-black text-lg dark:text-white dark:bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-black' 
             onClick={stopTimer}
           >
             {isRunning ? 'Pause' : 'Start'}

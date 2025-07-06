@@ -236,7 +236,7 @@ const AudioPlayer = () => {
   return (
     <div
       ref={playerRef}
-      className={`fixed z-[60] bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 transition-all duration-300 ${
+      className={`fixed z-[60] bg-white dark:bg-transparent rounded-lg shadow-lg border border-gray-200 dark:border-white transition-all duration-300 ${
         isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'
       }`}
       style={{
@@ -258,7 +258,7 @@ const AudioPlayer = () => {
               e.stopPropagation();
               setIsExpanded(true);
             }}
-            className="w-12 h-12 hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="w-12 h-12 hover:bg-gray-100 dark:hover:bg-[#080808]"
           >
             <Music className="h-6 w-6" />
           </Button>
@@ -340,7 +340,7 @@ const AudioPlayer = () => {
 
           {/* Track List */}
           <div className="max-h-48 overflow-y-auto space-y-1">
-            <h4 className="text-xs font-medium text-gray-500 mb-2">PLAYLIST</h4>
+            <h4 className="text-xs font-medium text-gray-500 mb-2 dark:text-white">PLAYLIST</h4>
             {AUDIO_TRACKS.map((track, index) => (
               <div
                 key={track.id}

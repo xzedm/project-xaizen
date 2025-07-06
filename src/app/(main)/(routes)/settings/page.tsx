@@ -91,7 +91,7 @@ const Settings = () => {
               <CardContent>
                 <div className="bg-black text-white rounded-lg p-4 text-center">
                   <h4 className="text-xl font-mono">
-                    8:24
+                    20:04
                   </h4>
                 </div>
               </CardContent>
@@ -363,7 +363,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-transparent">
       <SidebarProvider>
         <div className="flex">
           {/* Main content now comes first */}
@@ -371,8 +371,8 @@ const Settings = () => {
             <div className="max-w-4xl mx-auto">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-                  <p className="text-gray-600 mt-1">
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Settings</h1>
+                  <p className="text-gray-600 mt-1 dark:text-white">
                     Customize your focus experience
                   </p>
                 </div>

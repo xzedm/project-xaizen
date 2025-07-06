@@ -26,7 +26,7 @@ const ProfilePage = () => {
     }, []);
 
     return ( 
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen bg-gray-50 dark:bg-transparent">
             {/* User Profile Section */}
             <div className="flex justify-center items-center py-10 gap-20"
             ref={dropDown}>
@@ -58,10 +58,10 @@ const ProfilePage = () => {
                                 <Button onClick={() => {
                                 router.push('/user');
                                 }}
-                                className="cursor-pointer">
-                                    Manage Account
+                                className="cursor-pointer dark:bg-transparent dark:border dark:text-white dark:hover:bg-white dark:hover:text-black">
+                                    Manage Account  
                                 </Button>
-                                <div className="bg-gray-200 cursor-pointer text-center rounded-lg py-1.5 hover:bg-gray-300">
+                                <div className="bg-gray-200 cursor-pointer text-center rounded-lg py-1.5 hover:bg-gray-300 dark:bg-transparent dark:border dark:text-white dark:hover:bg-white dark:hover:text-black">
                                     <SignOutButton>
                                         <p>Sign out</p>
                                     </SignOutButton>

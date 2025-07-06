@@ -37,7 +37,7 @@ export default function NavigationMenu() {
   // Add active state styling based on current path
   const enhancedItems = items.map(item => ({
     ...item,
-    className: pathname === item.path ? 'bg-blue-500 border-blue-500' : ''
+    className: pathname === item.path ? 'bg-transparent border-blue-500' : ''
   }));
 
   return (

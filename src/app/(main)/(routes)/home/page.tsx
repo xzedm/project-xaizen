@@ -24,7 +24,7 @@ const HomePage = () => {
                 <div className="text-4xl font-medium text-center">
                     Keep grinding, {user?.username || user?.firstName || "Friend"}!
                 </div>
-                <div className="text-9xl font-semibold text-black">
+                <div className="text-9xl font-semibold text-black dark:text-white">
                     {formatTime(time)}
                 </div>
             </div>

@@ -10,8 +10,6 @@ const FocusPage = () => {
                     <Timer />
                 </div>
             </div>
-            
-            {/* Navigation Menu - Fixed at Bottom */}
         </div>
     );
 }

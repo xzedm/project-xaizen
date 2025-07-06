@@ -40,7 +40,7 @@ const MiniTimerWidget = () => {
   };
 
   return (
-    <div className="fixed top-4 right-4 bg-white shadow-lg rounded-lg p-3 border border-gray-200 z-50">
+    <div className="fixed top-4 right-4 bg-white shadow-lg rounded-lg p-3 border border-gray-200 z-50 dark:bg-transparent">
       <div className="flex items-center space-x-3">
         <div className="text-center">
           <div className={`text-xs font-medium ${getModeColor()}`}>
@@ -54,7 +54,7 @@ const MiniTimerWidget = () => {
         <div className="flex space-x-1">
           <button
             onClick={stopTimer}
-            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            className="p-1 hover:bg-gray-100 rounded transition-colors dark:hover:bg-black"
             title={isRunning ? 'Pause' : 'Start'}
           >
             {isRunning ? (
@@ -66,7 +66,7 @@ const MiniTimerWidget = () => {
           
           <button
             onClick={resetTimer}
-            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            className="p-1 hover:bg-gray-100 rounded transition-colors dark:hover:bg-black"
             title="Reset"
           >
             <RotateCcw className="w-4 h-4 cursor-pointer" />
