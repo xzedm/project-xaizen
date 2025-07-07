@@ -69,7 +69,11 @@ const Settings = () => {
     const { theme, setTheme } = useTheme();
   
     const handleThemeToggle = () => {
-      setTheme(theme === 'dark' ? 'light' : 'dark');
+      setTheme(theme === 'dark' ? 'dark' : 'dark');
+    }
+
+    const handleWhiteThemeToggle = () => {
+      setTheme(theme === 'light' ? 'light' : 'light');
     }
 
 
@@ -98,6 +102,28 @@ const Settings = () => {
             </Card>
             <CardTitle className="text-center">
               Minimal Black
+            </CardTitle>
+          </div>
+          <div className="space-y-2">
+            <Card 
+              className="cursor-pointer hover:shadow-md transition-shadow"
+              onClick={handleWhiteThemeToggle}
+            >
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  {/* You can add icons or other elements here */}
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-black text-white rounded-lg p-4 text-center">
+                  <h4 className="text-xl font-mono">
+                    20:04
+                  </h4>
+                </div>
+              </CardContent>
+            </Card>
+            <CardTitle className="text-center">
+              Minimal White
             </CardTitle>
           </div>
         </div>
@@ -292,56 +318,9 @@ const Settings = () => {
           <CardDescription>
             Block distracting websites during focus sessions
           </CardDescription>
+          <CardTitle className="text-center">Soon...</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <Label>Enable Website Blocking</Label>
-              <p className="text-sm text-muted-foreground">Block access to distracting sites</p>
-            </div>
-            <Switch
-              checked={focusSettings.blockingEnabled}
-              onCheckedChange={(checked) => 
-                setFocusSettings(prev => ({ ...prev, blockingEnabled: checked }))
-              }
-            />
-          </div>
-          
-          {focusSettings.blockingEnabled && (
-            <>
-              <div className="space-y-2">
-                <Label>Add Website to Block</Label>
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="example.com"
-                    value={newSite}
-                    onChange={(e) => setNewSite(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && addBlockedSite()}
-                  />
-                  <Button onClick={addBlockedSite} size="icon">
-                    <Plus className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <Label>Blocked Websites</Label>
-                <div className="flex flex-wrap gap-2">
-                  {blockedSites.map((site) => (
-                    <Badge key={site} variant="secondary" className="flex items-center gap-1">
-                      {site}
-                      <button
-                        onClick={() => removeBlockedSite(site)}
-                        className="ml-1 hover:text-red-500"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </button>
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
         </CardContent>
       </Card>
     </div>
