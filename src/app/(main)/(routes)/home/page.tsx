@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import MiniTimerWidget from "@/components/MiniTimerWidget";
+import AIChatbot from "@/components/AIChatbot";
 
 const HomePage = () => {
-
     const [time, setTime] = useState(new Date());
     const {user, isLoaded } = useUser();
 
@@ -29,6 +29,13 @@ const HomePage = () => {
                 </div>
             </div>
             <MiniTimerWidget />
+            
+            {/* AI Chatbot */}
+            <AIChatbot 
+                apiKey={process.env.NEXT_PUBLIC_AZURE_AI_API_KEY || ""}
+                endpoint={process.env.NEXT_PUBLIC_AZURE_AI_ENDPOINT || ""}
+            />
+            
             {/* Navigation Menu at Bottom */}
             <div className="fixed bottom-0 left-0 right-0">
             </div>

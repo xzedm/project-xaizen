@@ -115,7 +115,7 @@ const Settings = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="bg-black text-white rounded-lg p-4 text-center">
+                <div className="bg-white text-black rounded-lg p-4 text-center">
                   <h4 className="text-xl font-mono">
                     20:04
                   </h4>
