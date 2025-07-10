@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, Bot, Minimize2 } from 'lucide-react';
+import { X, Send, Bot, Minimize2, Trash2 } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -9,9 +9,16 @@ interface Message {
   timestamp: Date;
 }
 
+interface ChatSession {
+  id: string;
+  messages: Message[];
+  createdAt: Date;
+  lastUpdated: Date;
+}
+
 interface AIChatbotProps {
   apiKey: string;
-  endpoint: string; // Your Azure AI Foundry endpoint
+  endpoint: string;
 }
 
 const AIChatbot: React.FC<AIChatbotProps> = ({ apiKey, endpoint }) => {
@@ -26,7 +33,147 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ apiKey, endpoint }) => {
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [currentSessionId, setCurrentSessionId] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const STORAGE_KEY = 'ai_chatbot_sessions';
+  const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+  // Generate a unique session ID
+  const generateSessionId = () => {
+    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  };
+
+  // Load chat sessions from localStorage
+  const loadSessions = (): ChatSession[] => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) return [];
+      
+      const sessions = JSON.parse(stored) as ChatSession[];
+      // Convert timestamp strings back to Date objects
+      return sessions.map(session => ({
+        ...session,
+        createdAt: new Date(session.createdAt),
+        lastUpdated: new Date(session.lastUpdated),
+        messages: session.messages.map(msg => ({
+          ...msg,
+          timestamp: new Date(msg.timestamp)
+        }))
+      }));
+    } catch (error) {
+      console.error('Error loading sessions:', error);
+      return [];
+    }
+  };
+
+  // Save chat sessions to localStorage
+  const saveSessions = (sessions: ChatSession[]) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+    } catch (error) {
+      console.error('Error saving sessions:', error);
+    }
+  };
+
+  // Clean up expired sessions (older than 24 hours)
+  const cleanupExpiredSessions = () => {
+    const sessions = loadSessions();
+    const now = new Date();
+    const validSessions = sessions.filter(session => {
+      const timeDiff = now.getTime() - session.lastUpdated.getTime();
+      return timeDiff < SESSION_DURATION;
+    });
+    
+    if (validSessions.length !== sessions.length) {
+      saveSessions(validSessions);
+      console.log(`Cleaned up ${sessions.length - validSessions.length} expired sessions`);
+    }
+  };
+
+  // Save current session
+  const saveCurrentSession = () => {
+    if (!currentSessionId || messages.length <= 1) return; // Don't save if only initial message
+    
+    const sessions = loadSessions();
+    const now = new Date();
+    
+    const existingSessionIndex = sessions.findIndex(s => s.id === currentSessionId);
+    const sessionData: ChatSession = {
+      id: currentSessionId,
+      messages: messages,
+      createdAt: existingSessionIndex >= 0 ? sessions[existingSessionIndex].createdAt : now,
+      lastUpdated: now
+    };
+
+    if (existingSessionIndex >= 0) {
+      sessions[existingSessionIndex] = sessionData;
+    } else {
+      sessions.push(sessionData);
+    }
+
+    saveSessions(sessions);
+  };
+
+  // Load the most recent session or create a new one
+  const loadMostRecentSession = () => {
+    cleanupExpiredSessions();
+    const sessions = loadSessions();
+    
+    if (sessions.length > 0) {
+      // Sort by lastUpdated and get the most recent
+      const mostRecent = sessions.sort((a, b) => 
+        b.lastUpdated.getTime() - a.lastUpdated.getTime()
+      )[0];
+      
+      setCurrentSessionId(mostRecent.id);
+      setMessages(mostRecent.messages);
+    } else {
+      // Create new session
+      const newSessionId = generateSessionId();
+      setCurrentSessionId(newSessionId);
+      setMessages([
+        {
+          id: '1',
+          content: 'Hello! I\'m your AI assistant. How can I help you today?',
+          isUser: false,
+          timestamp: new Date(),
+        },
+      ]);
+    }
+  };
+
+  // Clear current session and start new one
+  const startNewSession = () => {
+    const newSessionId = generateSessionId();
+    setCurrentSessionId(newSessionId);
+    setMessages([
+      {
+        id: '1',
+        content: 'Hello! I\'m your AI assistant. How can I help you today?',
+        isUser: false,
+        timestamp: new Date(),
+      },
+    ]);
+  };
+
+  // Initialize session on component mount
+  useEffect(() => {
+    loadMostRecentSession();
+  }, []);
+
+  // Save session whenever messages change
+  useEffect(() => {
+    if (currentSessionId && messages.length > 1) {
+      saveCurrentSession();
+    }
+  }, [messages, currentSessionId]);
+
+  // Clean up expired sessions periodically
+  useEffect(() => {
+    const interval = setInterval(cleanupExpiredSessions, 60000); // Check every minute
+    return () => clearInterval(interval);
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -56,7 +203,7 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ apiKey, endpoint }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'api-key': apiKey, // Azure uses 'api-key' instead of 'Authorization'
+          'api-key': apiKey,
         },
         body: JSON.stringify({
           messages: [
@@ -136,6 +283,13 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ apiKey, endpoint }) => {
             </div>
             <div className="flex items-center gap-2">
               <button
+                onClick={startNewSession}
+                className="hover:bg-blue-700 p-1 rounded"
+                title="Start new conversation"
+              >
+                <Trash2 size={16} />
+              </button>
+              <button
                 onClick={() => setIsOpen(false)}
                 className="hover:bg-blue-700 p-1 rounded"
               >
@@ -190,9 +344,9 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ apiKey, endpoint }) => {
 
           {/* Input Area */}
           <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-            {/* Disclaimer Text */}
+            {/* Status Text */}
             <div className="text-xs text-gray-500 dark:text-gray-400 mb-3 text-center">
-              This conversation will not be saved
+              Chat saved for 24 hours • Session: {currentSessionId.split('_')[1]}
             </div>
             <div className="flex gap-2">
               <textarea

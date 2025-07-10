@@ -35,10 +35,6 @@ const HomePage = () => {
                 apiKey={process.env.NEXT_PUBLIC_AZURE_AI_API_KEY || ""}
                 endpoint={process.env.NEXT_PUBLIC_AZURE_AI_ENDPOINT || ""}
             />
-            
-            {/* Navigation Menu at Bottom */}
-            <div className="fixed bottom-0 left-0 right-0">
-            </div>
         </div>
     );
 };
