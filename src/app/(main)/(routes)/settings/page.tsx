@@ -80,48 +80,27 @@ const Settings = () => {
   const renderThemeSection = () => (
   <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-4">Theme Library</h3>
+        <h3 className="text-xl font-semibold mb-4">Theme Library</h3>
+        <h1 className="text-xl font-semibold mb-4">Minimalism</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Card 
-              className="cursor-pointer hover:shadow-md transition-shadow"
-              onClick={handleThemeToggle}
-            >
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  {/* You can add icons or other elements here */}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-black text-white rounded-lg p-4 text-center">
-                  <h4 className="text-xl font-mono">
+                <div className="bg-black text-white rounded-lg p-4 text-center cursor-pointer w-40 h-25 flex items-center justify-center"
+                onClick={handleThemeToggle}>
+                  <h4 className="text-xl font-semibold">
                     20:04
                   </h4>
                 </div>
-              </CardContent>
-            </Card>
             <CardTitle className="text-center">
               Minimal Black
             </CardTitle>
           </div>
           <div className="space-y-2">
-            <Card 
-              className="cursor-pointer hover:shadow-md transition-shadow"
-              onClick={handleWhiteThemeToggle}
-            >
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  {/* You can add icons or other elements here */}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-white text-black rounded-lg p-4 text-center">
-                  <h4 className="text-xl font-mono">
+            <div className="bg-white text-black rounded-lg p-4 text-center cursor-pointer w-40 h-25 flex items-center justify-center"
+            onClick={handleWhiteThemeToggle}>
+                  <h4 className="text-xl font-semibold">
                     20:04
                   </h4>
                 </div>
-              </CardContent>
-            </Card>
             <CardTitle className="text-center">
               Minimal White
             </CardTitle>
