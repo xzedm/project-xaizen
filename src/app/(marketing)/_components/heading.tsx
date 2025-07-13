@@ -6,14 +6,15 @@ import { SignInButton } from "@clerk/clerk-react";
 import { useConvexAuth } from "convex/react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Pressure } from "./pressure";
 
 export const Heading = () => {
     const {isAuthenticated, isLoading } = useConvexAuth();
 
     return (
         <div className="max-w-3xl space-y-4">
-            <h1 className="text-3xl sm:text-5xl md:text-6xl ">Avoid <span className="font-bold"> distractions.</span> Take the 
-                <span className="font-bold"> action.</span>
+            <h1 className="text-3xl sm:text-5xl md:text-6xl ">Avoid <span className="font-bold"> distractions.</span> <br />
+            Take the <span className="font-bold"> action.</span>
             </h1>
             <h3 className="text-base sm:text-xl md:text-2xl font-medium">
             An AI-powered Pomodoro app that helps you stay productive and beat distractions.
@@ -40,6 +41,9 @@ export const Heading = () => {
                     </Button>
                 </SignInButton>
             )}
+            <div className="mt-20">
+                <Pressure />
+            </div>
 
         </div>
     )
