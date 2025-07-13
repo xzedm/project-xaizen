@@ -236,7 +236,7 @@ const AudioPlayer = () => {
   return (
     <div
       ref={playerRef}
-      className={`fixed z-[60] bg-white dark:bg-transparent rounded-lg shadow-lg border border-gray-200 dark:border-white transition-all duration-300 ${
+      className={`fixed z-[60] bg-white dark:bg-[#111111] rounded-lg shadow-lg border border-gray-200 dark:border-white transition-all duration-300 ${
         isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'
       }`}
       style={{
