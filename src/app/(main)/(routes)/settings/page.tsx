@@ -122,7 +122,11 @@ const Settings = () => {
             Configure when and how you want to be notified
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        {/* need to FIX */}
+        <CardTitle className="text-center">
+          Soon...
+        </CardTitle>
+        {/* <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <Label>Break Reminders</Label>
@@ -161,10 +165,10 @@ const Settings = () => {
               }
             />
           </div>
-        </CardContent>
+        </CardContent> */}
       </Card>
 
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Volume2 className="w-5 h-5" />
@@ -197,7 +201,7 @@ const Settings = () => {
             </div>
           )}
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 
@@ -207,13 +211,16 @@ const Settings = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Clock className="w-5 h-5" />
-            Focus Timer Settings
+            Customization Settings
           </CardTitle>
           <CardDescription>
-            Customize your Pomodoro timer intervals
+            Customize anything you want
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardTitle className="text-center">
+          Soon...
+        </CardTitle>
+        {/* <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label>Work Duration: {focusSettings.workDuration[0]} minutes</Label>
             <Slider
@@ -281,7 +288,7 @@ const Settings = () => {
               }
             />
           </div>
-        </CardContent>
+        </CardContent> */}
       </Card>
     </div>
   );
