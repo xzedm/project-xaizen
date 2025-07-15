@@ -128,7 +128,7 @@ export const AudioProvider = ({ children }: AudioProviderProps) => {
         // Audio is ready to play
       };
 
-      const handleError = (e: any) => {
+      const handleError = (e: unknown) => {
         console.error('Audio error:', e);
         // Try next track on error
         setTimeout(() => {

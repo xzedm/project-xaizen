@@ -31,12 +31,6 @@ const Settings = () => {
   //   autoStartBreaks: false,
   //   strictMode: false
   // });
-  const [blockedSites, setBlockedSites] = useState([
-    "facebook.com",
-    "twitter.com",
-    "instagram.com"
-  ]);
-  const [newSite, setNewSite] = useState("");
 
     const { theme, setTheme } = useTheme();
   
