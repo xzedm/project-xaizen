@@ -29,8 +29,8 @@ interface AudioContextType {
   selectTrack: (index: number) => void;
   seekTo: (time: number) => void;
   
-  // Audio element ref
-  audioRef: React.RefObject<HTMLAudioElement>;
+  // Audio element ref - Updated to allow null
+  audioRef: React.RefObject<HTMLAudioElement | null>;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -175,7 +175,7 @@ export const AudioProvider = ({ children }: AudioProviderProps) => {
         }, 100);
       }
     }
-  }, [currentTrackIndex]);
+  }, [currentTrackIndex, isPlaying]);
 
   // Audio controls
   const togglePlay = () => {
