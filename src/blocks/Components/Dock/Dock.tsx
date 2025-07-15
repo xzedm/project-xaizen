@@ -93,6 +93,7 @@ function DockItem({
       aria-haspopup="true"
     >
       {Children.map(children, (child) =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
         cloneElement(child as React.ReactElement<any>, { isHovered })
       )}
     </motion.div>
