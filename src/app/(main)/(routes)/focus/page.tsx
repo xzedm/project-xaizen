@@ -1,5 +1,4 @@
 import Timer from "@/components/Timer";
-import NavigationMenu from "@/components/NavigationMenu";
 
 const FocusPage = () => {
     return (

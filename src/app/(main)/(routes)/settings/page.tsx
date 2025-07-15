@@ -5,66 +5,38 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./_components/app-sidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Slider } from "@/components/ui/slider";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  Palette, 
-  Volume2, 
   Bell, 
   Clock, 
   Shield, 
-  Smartphone, 
-  Moon, 
-  Sun, 
-  Monitor,
-  Check,
-  Plus,
-  Trash2
 } from "lucide-react";
 import { useTheme } from "next-themes";
 
 const Settings = () => {
   const [activeSection, setActiveSection] = useState("themes");
 
-  const [notifications, setNotifications] = useState({
-    breakReminders: true,
-    sessionComplete: true,
-    dailyGoals: false,
-    soundEnabled: true,
-    volume: [75]
-  });
-  const [focusSettings, setFocusSettings] = useState({
-    blockingEnabled: true,
-    workDuration: [25],
-    shortBreak: [5],
-    longBreak: [15],
-    autoStartBreaks: false,
-    strictMode: false
-  });
+  // const [notifications, setNotifications] = useState({
+  //   breakReminders: true,
+  //   sessionComplete: true,
+  //   dailyGoals: false,
+  //   soundEnabled: true,
+  //   volume: [75]
+  // });
+  // const [focusSettings, setFocusSettings] = useState({
+  //   blockingEnabled: true,
+  //   workDuration: [25],
+  //   shortBreak: [5],
+  //   longBreak: [15],
+  //   autoStartBreaks: false,
+  //   strictMode: false
+  // });
   const [blockedSites, setBlockedSites] = useState([
     "facebook.com",
     "twitter.com",
     "instagram.com"
   ]);
   const [newSite, setNewSite] = useState("");
-
-
-  const addBlockedSite = () => {
-    if (newSite && !blockedSites.includes(newSite)) {
-      setBlockedSites([...blockedSites, newSite]);
-      setNewSite("");
-    }
-  };
-
-  const removeBlockedSite = (site: string) => {
-    setBlockedSites(blockedSites.filter(s => s !== site));
-  };
-
 
     const { theme, setTheme } = useTheme();
   

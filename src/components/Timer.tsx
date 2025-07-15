@@ -25,7 +25,6 @@ const Timer = () => {
     formatTime,
     stopTimer,
     resetTimer,
-    getCurrentModeTime,
     handleModeChange
   } = useTimer();
 

@@ -1,9 +1,7 @@
 import { 
   Palette, 
   Bell, 
-  Clock, 
   Shield, 
-  Volume2,
   Smartphone,
   Settings,
   Pen 

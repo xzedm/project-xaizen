@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation } from "convex/react";
+import React, { useState } from 'react';
+import { useQuery } from "convex/react";
 import { api } from "../../../../../../convex/_generated/api";
 import { useUser } from "@clerk/clerk-react";
 
@@ -111,7 +111,6 @@ const ContributionCalendar = () => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     
-    let weekCount = 0;
     let currentMonth = startDate.getMonth();
     
     calendarData.forEach((day, index) => {

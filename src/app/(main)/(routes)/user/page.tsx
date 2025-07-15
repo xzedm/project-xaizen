@@ -1,8 +1,6 @@
 "use client";
 
 import { UserProfile } from "@clerk/clerk-react";
-import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/router";
 import BackToProfileButton from "./_components/BackToProfileButton";
 
 const User = () => {

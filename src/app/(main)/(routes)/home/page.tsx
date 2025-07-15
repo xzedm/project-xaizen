@@ -6,7 +6,7 @@ import AIChatbot from "@/components/AIChatbot";
 
 const HomePage = () => {
     const [time, setTime] = useState(new Date());
-    const {user, isLoaded } = useUser();
+    const {user} = useUser();
 
     useEffect(() => {
         const interval = setInterval(() => setTime(new Date()), 1000);

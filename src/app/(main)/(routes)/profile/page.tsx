@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { SignOutButton, UserButton, UserProfile, useUser } from "@clerk/clerk-react";
-import Link from "next/link";
+import { SignOutButton, useUser } from "@clerk/clerk-react";
 import { useEffect, useRef, useState } from "react";
 import ContributionCalendar from "./_components/ContributionCalendar";
 import { useRouter } from "next/navigation";

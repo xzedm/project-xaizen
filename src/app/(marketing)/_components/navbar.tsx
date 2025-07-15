@@ -43,7 +43,7 @@ export const NavBar = () => {
                                 size="sm"
                                 className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
                             >
-                                Let's xaizen
+                                Let&apos;s xaizen
                             </Button>
                         </SignInButton>
                     </div>

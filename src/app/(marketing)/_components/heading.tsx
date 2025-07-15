@@ -36,7 +36,7 @@ export const Heading = () => {
             {!isAuthenticated && !isLoading && (
                 <SignInButton mode="modal">
                     <Button className="cursor-pointer">
-                    Let's xaizen
+                    Let&apos;s xaizen
                     <ArrowRight className="h-4 w-4 "/>
                     </Button>
                 </SignInButton>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Music, Volume2, VolumeX, Play, Pause, SkipForward, SkipBack, Maximize2, Minimize2, GripVertical } from 'lucide-react';
+import { Music, Volume2, VolumeX, Play, Pause, SkipForward, SkipBack, Minimize2, GripVertical } from 'lucide-react';
 import { Button } from './ui/button';
 
 interface AudioTrack {
