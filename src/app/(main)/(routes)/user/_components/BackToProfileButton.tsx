@@ -1,4 +1,4 @@
-"use client"; // ✅ Required for hooks in app router components
+"use client";
 
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";

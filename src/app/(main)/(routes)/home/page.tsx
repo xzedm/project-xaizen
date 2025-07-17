@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import MiniTimerWidget from "@/components/MiniTimerWidget";
