@@ -7,7 +7,9 @@ import { TimerProvider } from "@/components/TimerContext";
 import { useConvexAuth } from "convex/react";
 import { redirect } from "next/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
+import NextDynamic from "next/dynamic";
 
+// Load client providers only on the client to avoid SSR importing Clerk
 const MainLayout = ({
     children
 }: {

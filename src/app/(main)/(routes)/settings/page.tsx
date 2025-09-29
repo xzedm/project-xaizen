@@ -13,6 +13,9 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 
+// Force dynamic rendering to avoid SSR issues
+export const dynamic = "force-dynamic";
+
 const Settings = () => {
   const [activeSection, setActiveSection] = useState("themes");
 
@@ -294,7 +297,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-transparent">
+    <div className="min-h-screen bg-white dark:bg-transparent">
       <SidebarProvider>
         <div className="flex">
           {/* Main content now comes first */}

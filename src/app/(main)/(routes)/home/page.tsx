@@ -5,6 +5,9 @@ import { useUser } from "@clerk/clerk-react";
 import MiniTimerWidget from "@/components/MiniTimerWidget";
 import AIChatbot from "@/components/AIChatbot";
 
+// Force dynamic rendering to avoid SSR issues with Clerk hooks
+export const dynamic = "force-dynamic";
+
 const HomePage = () => {
     const [time, setTime] = useState(new Date());
     const {user} = useUser();

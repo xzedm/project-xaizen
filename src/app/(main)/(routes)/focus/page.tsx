@@ -1,5 +1,8 @@
 import Timer from "@/components/Timer";
 
+// Force dynamic rendering to avoid SSR issues
+export const dynamic = "force-dynamic";
+
 const FocusPage = () => {
     return (
         <div className="min-h-screen flex flex-col">
